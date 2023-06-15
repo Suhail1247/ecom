@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metad %}
+
+        CART
+
+{% endblock %}
+
+{% block title %}
+       CART
+{% endblock %}
+
+{% block body %}
+{% if not cart_item %}
+<div>
+    <div style="text-align:center;">
+        <br>
+        <h1 style="text-align:center;">
+            Your Cart Is Empty
+        </h1>
+        <br>
+        <p style="text-align:center;"><a href="{% url 'ecomapp:allprocat' %}"> please click here to go home </a></p>
+    </div>
+</div>
+{% else %}
+<div>
+    <div style="text-align:center;">
+        <br>
+        <h1 style="text-align:center;">
+            Your Cart:
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6">
+        <table style="min-width:400px;font-size:14px;border-spacing:30px;border-collapse:separate;">
+            <thead style="text-align:center;font-weight:normal;text-transform:uppercase;letter-spacing:1em;background-color:#EBF4FA;">
+            <tr>
+                <th colspan="5">
+                    Your Items
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for c in cart_item %}
+            <tr>
+                <td>
+                    <a href="c.p.get_url"><img src="{{c.p.image.url}}" height="75"></a>
+                </td>
+                <td>
+                    {{c.p.name}}
+                    <br>
+                    <i class="fa fa-rupee"></i>Price: {{c.p.price}}
+                    <br>
+                    Qty : {{c.qty}} x {{c}}
+
+                </td>
+                <td>
+                    <i class="fa fa-rupee"></i>{{c.total}}
+                </td>
+                {% if c.qty < c.p.stock %}
+                <td>
+                    <a href="{% url 'cart:add_cart' c.p.id %}"> <i class="fa fa-plus"></i></a><br>
+                     <a href="{% url 'cart:minus' c.p.id %}"> <i class="fa fa-minus"></i></a><br>
+                     <a href="{% url 'cart:trash' c.p.id %}"> <i class="fa fa-trash"></i></a>
+                </td>
+                {% else %}
+                <td>
+                    <i class="fa fa-plus" style="opacity:0.5"></i></a><br>
+                    <a href="{% url 'cart:minus' c.p.id %}"> <i class="fa fa-minus"></i></a>
+                    <br><a href="{% url 'cart:trash' c.p.id %}"> <i class="fa fa-trash"></i></a>
+                </td>
+
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6">
+        <table style="min-width:400px;font-size:14px;">
+            <thead style="text-align:center;font-weight:normal;text-transform:uppercase;letter-spacing:.1em;background-color:#EBF4FA;">
+                <tr>
+                    <th>
+                            checkout
+                    </th>
+                </tr>
+            </thead>
+            <tbody style="text-align:center;font-weight:normal;text-transform:uppercase;">
+                <tr>
+                    <td >
+                        please review your items before proceeding to the payment
+                    </td>
+                </tr>
+            <tr>
+                <td>
+                Total Amount: <i class="fa fa-rupee"></i> <strong>{{total}}</strong>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <div style="padding-left:25%;">
+            <a href="{% url 'ecomapp:allprocat' %}" class="btn btn-secondary" >Continue Shopping</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

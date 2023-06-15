@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="row container">
+    {% for p in product %}
+<div class="col-md-4">
+    <div class="card" style="text-align:center;padding:20px;">
+        <div class="card-body">
+        <a href="{{p.get_url}}">
+            <img src="{{p.image.url}}" alt="{{p.name}}" height="150px" width="200px"><br>
+        <h1>{{p.name}}</h1><br>
+        <b><i class="fa fa-rupee"></i> {{p.price}}</b>
+        </a></div></div></div>
+    {% empty %}
+    <p>0 items found</p>
+
+    {% endfor %}
+    </div>
+{% endblock %}

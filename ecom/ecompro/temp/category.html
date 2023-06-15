@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metad %}
+    {% if 'category' %}
+        {{category.description}}
+    {% else %}
+        welcome to HOPE store..
+    {% endif %}
+{% endblock %}
+
+{% block title %}
+    {% if 'category' %}
+        {{category.name}} - HOPE
+    {% else %}
+        welcome to HOPE store..
+    {% endif %}
+{% endblock %}
+{% block body %}
+    {% if category %}
+        <div style="padding-top:15px;color:#000;font-size:20px;">
+
+            <p><a href="{% url 'ecomapp:allprocat' %}"> <b>Our products<b></a> </p>
+
+        </div>
+    {% endif %}
+    {% if category %}
+        <div class="row">
+            <div class="col-sm-4">
+            <img src="{{category.image.url}}" alt="abcd" height="auto" width="100%" >     <br>
+            </div>
+        </div>
+        <br>
+        <div>
+            <h1 style="text-align:center;letter-spacing:.2em;font-size:14px;text-transform:uppercase;">{{category.name}}</h1>
+            <p style="text-align:justify">{{category.description}}</p>
+        </div>
+
+    {% else %}
+        <img style="padding:5px;" src="{% static 'img/banner.png' %}" alt="banner">
+    {% endif %}
+    <div>
+        <div class="row container">
+            {% for p in products.object_list %}
+            <div class="col-md-4" >
+            <div class="card" style="text-align:center;padding:20px;"><div class="card-body">
+                <a href="{{p.get_url}}"> <img src="{{p.image.url}}" alt="{{p.name}}" height="150px" width="200px"><br>
+                <h1>{{p.name}}</h1><br>
+                <b><i class="fa fa-rupee"></i> {{p.price}}</b>
+                    </div> </div><br>
+            </div></a>
+            {% endfor %}
+        </div>
+        <div>
+            {% if products.paginator.num_pages > 1 %}
+            <div style="text-align:center;">
+            {% for pg in products.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+        {% endfor %}
+        </div>
+        {% endif %}}
+        </div>
+
+
+        <br>
+    </div>
+{% endblock %}
